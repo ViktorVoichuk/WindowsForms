@@ -13,6 +13,8 @@ using Microsoft.Win32;
 using System.Diagnostics;
 using Clocl.Properties;
 
+//using System.Diagnostics;
+
 namespace Clocl
 {
     public partial class MainForm : Form
@@ -20,24 +22,29 @@ namespace Clocl
 
         ColorDialog backgroundColorDialog;
         ColorDialog foregroundColofDialog;
-        FontDialog fontDialog;
+        //FontDialog fontDialog;
         ChooseFont chooseFontDialog;
+        string FontFile {  get; set; }
+        
         public MainForm()
         {
             InitializeComponent();
             SetFontDirectory();
+            
             this.TransparencyKey = Color.Empty;
             backgroundColorDialog = new ColorDialog();
             foregroundColofDialog = new ColorDialog();
-            fontDialog = new FontDialog();
+
+
+            //fontDialog = new FontDialog();
 
             chooseFontDialog = new ChooseFont();
 
-            backgroundColorDialog.Color = Color.Black;
-            foregroundColofDialog.Color = Color.Blue;
-            labelTime.ForeColor = foregroundColofDialog.Color;
-            labelTime.BackColor = backgroundColorDialog.Color;
+            LoadsSettings();
+            //backgroundColorDialog.Color = Color.Black;
+            //foregroundColofDialog.Color = Color.Blue;
             
+
             SetVisibility(false);
             this.Location = new Point
                 (
@@ -45,18 +52,37 @@ namespace Clocl
                     50
                 );
             this.Text += $"location: {this.Location.X}x{this.Location.Y}";
-            LoadSettings();
+            //LoadSettings();
         }
-
-
-        void GetLocation()
+        void LoadsSettings()
         {
-            this.Location = new Point
-                    (System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width - (labelTime.Width + 70),
-                    50
-                    );
+            StreamReader sr = new StreamReader("settings.txt");
+            List<string> settings = new List<string>();
+            while (!sr.EndOfStream)
+            {
+                settings.Add(sr.ReadLine());
+            }
+            sr.Close();
+            backgroundColorDialog.Color = Color.FromArgb(Convert.ToInt32(settings.ToArray()[0]));
+            foregroundColofDialog.Color = Color.FromArgb(Convert.ToInt32(settings.ToArray()[1]));
+            FontFile = settings.ToArray()[2];
+            topmostToolStripMenuItem.Checked = bool.Parse(settings.ToArray()[3]);
+            showDateToolStripMenuItem.Checked = bool.Parse(settings.ToArray()[4]);
+            labelTime.Font = chooseFontDialog.SetFontFile(FontFile);
+            labelTime.ForeColor = foregroundColofDialog.Color;
+            labelTime.BackColor = backgroundColorDialog.Color;
         }
-
+        void SaveSettings()
+        {
+            StreamWriter sw = new StreamWriter("settings.txt");
+            sw.WriteLine(backgroundColorDialog.Color.ToArgb()); //ToArgb() возвращает числовой код цвета
+            sw.WriteLine(foregroundColofDialog.Color.ToArgb());
+            sw.WriteLine(chooseFontDialog.FontFile.Split('\\').Last());
+            sw.WriteLine(topmostToolStripMenuItem.Checked);
+            sw.WriteLine(showDateToolStripMenuItem.Checked);
+            sw.Close();
+            Process.Start("notepad", "settings.txt");
+        }
         void SetFontDirectory()
         {
             string location = Assembly.GetEntryAssembly().Location; //Получаем полный адрес исполняемого файла 
@@ -186,15 +212,16 @@ namespace Clocl
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Settings.Default.Topmost = topmostToolStripMenuItem.Checked;
-            Settings.Default.ShowControl = showControlsToolStripMenuItem.Checked;
-            Settings.Default.ShowDate = showDateToolStripMenuItem.Checked;
-            Settings.Default.LoadOnWND = loadOnWindowsStartupToolStripMenuItem.Checked;
-            Settings.Default.FColor = labelTime.ForeColor;
-            Settings.Default.BColor = labelTime.BackColor;
-            Settings.Default.Font = labelTime.Font;
-            Settings.Default.Location = this.Location;
-            Settings.Default.Save();
+            SaveSettings();
+            //Settings.Default.Topmost = topmostToolStripMenuItem.Checked;
+            //Settings.Default.ShowControl = showControlsToolStripMenuItem.Checked;
+            //Settings.Default.ShowDate = showDateToolStripMenuItem.Checked;
+            //Settings.Default.LoadOnWND = loadOnWindowsStartupToolStripMenuItem.Checked;
+            //Settings.Default.FColor = labelTime.ForeColor;
+            //Settings.Default.BColor = labelTime.BackColor;
+            //Settings.Default.Font = labelTime.Font;
+            //Settings.Default.Location = this.Location;
+            //Settings.Default.Save();
         }
         private void LoadSettings()
         {
