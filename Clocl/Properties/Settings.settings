@@ -20,7 +20,7 @@
     <Setting Name="BColor" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="Font" Type="System.Drawing.Font" Scope="User">
+    <Setting Name="Font" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="Location" Type="System.Drawing.Point" Scope="User">

@@ -24,13 +24,13 @@ namespace Clocl
         ColorDialog foregroundColofDialog;
         //FontDialog fontDialog;
         ChooseFont chooseFontDialog;
-        string FontFile {  get; set; }
-        
+        string FontFile { get; set; }
+
         public MainForm()
         {
             InitializeComponent();
             SetFontDirectory();
-            
+
             this.TransparencyKey = Color.Empty;
             backgroundColorDialog = new ColorDialog();
             foregroundColofDialog = new ColorDialog();
@@ -43,7 +43,7 @@ namespace Clocl
             LoadsSettings();
             //backgroundColorDialog.Color = Color.Black;
             //foregroundColofDialog.Color = Color.Blue;
-            
+
 
             SetVisibility(false);
             this.Location = new Point
@@ -71,6 +71,14 @@ namespace Clocl
             labelTime.Font = chooseFontDialog.SetFontFile(FontFile);
             labelTime.ForeColor = foregroundColofDialog.Color;
             labelTime.BackColor = backgroundColorDialog.Color;
+
+            RegistryKey rk = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+            object run = rk.GetValue("Clock");
+            if (run != null)
+            {
+                loadOnWindowsStartupToolStripMenuItem.Checked = true;
+            }
+            rk.Dispose();
         }
         void SaveSettings()
         {
@@ -121,6 +129,7 @@ namespace Clocl
 
         private void labelTime_DoubleClick(object sender, EventArgs e)
         {
+            
             //SetVisibility(true);
             showControlsToolStripMenuItem.Checked = true;
         }
@@ -193,14 +202,13 @@ namespace Clocl
             labelTime.Capture = false; //захват мыши окном labelTime
             Message n = Message.Create(this.Handle, 0xa1, new IntPtr(2), IntPtr.Zero);//подменяет значение для системы о зажатии левой кнопки мыши
             this.WndProc(ref n);
-
         }
 
         private void loadOnWindowsStartupToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {
             const string name = "clock";
             string Path = Assembly.GetExecutingAssembly().Location;
-            RegistryKey reg = Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run");
+            RegistryKey reg = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run",true);
             if (loadOnWindowsStartupToolStripMenuItem.Checked)
             {
                 reg.SetValue(name, Path);
@@ -208,6 +216,7 @@ namespace Clocl
             else { reg.DeleteValue(name); }
             reg.Flush();
             reg.Close();
+
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -219,7 +228,7 @@ namespace Clocl
             //Settings.Default.LoadOnWND = loadOnWindowsStartupToolStripMenuItem.Checked;
             //Settings.Default.FColor = labelTime.ForeColor;
             //Settings.Default.BColor = labelTime.BackColor;
-            //Settings.Default.Font = labelTime.Font;
+            //Settings.Default.Font = chooseFontDialog.FontFile.Split('\\').Last();
             //Settings.Default.Location = this.Location;
             //Settings.Default.Save();
         }
@@ -231,7 +240,7 @@ namespace Clocl
             loadOnWindowsStartupToolStripMenuItem.Checked = Properties.Settings.Default.LoadOnWND;
             labelTime.ForeColor = Properties.Settings.Default.FColor;
             labelTime.BackColor = Properties.Settings.Default.BColor;
-            labelTime.Font = Properties.Settings.Default.Font;
+            labelTime.Font = chooseFontDialog.SetFontFile(Properties.Settings.Default.Font);
             this.Location = Properties.Settings.Default.Location;
         }
     }

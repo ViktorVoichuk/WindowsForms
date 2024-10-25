@@ -95,9 +95,10 @@ namespace Clocl.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Drawing.Font Font {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Font {
             get {
-                return ((global::System.Drawing.Font)(this["Font"]));
+                return ((string)(this["Font"]));
             }
             set {
                 this["Font"] = value;
