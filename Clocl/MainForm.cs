@@ -12,6 +12,7 @@ using System.Reflection;
 using Microsoft.Win32;
 using System.Diagnostics;
 using Clocl.Properties;
+using System.Runtime.InteropServices;
 
 //using System.Diagnostics;
 
@@ -24,11 +25,13 @@ namespace Clocl
         ColorDialog foregroundColofDialog;
         //FontDialog fontDialog;
         ChooseFont chooseFontDialog;
+        AlarmList alarmList;
         string FontFile { get; set; }
 
         public MainForm()
         {
             InitializeComponent();
+            AllocConsole();
             SetFontDirectory();
 
             this.TransparencyKey = Color.Empty;
@@ -41,6 +44,7 @@ namespace Clocl
             chooseFontDialog = new ChooseFont();
 
             LoadsSettings();
+            alarmList = new AlarmList();
             //backgroundColorDialog.Color = Color.Black;
             //foregroundColofDialog.Color = Color.Blue;
 
@@ -89,7 +93,7 @@ namespace Clocl
             sw.WriteLine(topmostToolStripMenuItem.Checked);
             sw.WriteLine(showDateToolStripMenuItem.Checked);
             sw.Close();
-            Process.Start("notepad", "settings.txt");
+            //Process.Start("notepad", "settings.txt");
         }
         void SetFontDirectory()
         {
@@ -129,7 +133,7 @@ namespace Clocl
 
         private void labelTime_DoubleClick(object sender, EventArgs e)
         {
-            
+
             //SetVisibility(true);
             showControlsToolStripMenuItem.Checked = true;
         }
@@ -208,7 +212,7 @@ namespace Clocl
         {
             const string name = "clock";
             string Path = Assembly.GetExecutingAssembly().Location;
-            RegistryKey reg = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run",true);
+            RegistryKey reg = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run", true);
             if (loadOnWindowsStartupToolStripMenuItem.Checked)
             {
                 reg.SetValue(name, Path);
@@ -243,5 +247,13 @@ namespace Clocl
             labelTime.Font = chooseFontDialog.SetFontFile(Properties.Settings.Default.Font);
             this.Location = Properties.Settings.Default.Location;
         }
+
+        private void allarmsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            alarmList.ShowDialog(this);
+        }
+
+        [DllImport("kernel32.dll")]
+        static extern bool AllocConsole();
     }
 }

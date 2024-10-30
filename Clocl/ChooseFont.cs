@@ -31,7 +31,7 @@ namespace Clocl
             comboBoxFonts.SelectedIndex = comboBoxFonts.Items.IndexOf(FontFile);
             PrivateFontCollection pfc = new PrivateFontCollection();
             pfc.AddFontFile(FontFile);
-            return new Font(pfc.Families[0],28);
+            return new Font(pfc.Families[0], 28);
         }
         void LoadFonts()
         {

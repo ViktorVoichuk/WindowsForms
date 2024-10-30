@@ -41,6 +41,7 @@
             this.foregroundColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.backgroundColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fontsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.allarmsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.loadOnWindowsStartupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -78,12 +79,13 @@
             this.toolStripSeparator2,
             this.colorsToolStripMenuItem,
             this.fontsToolStripMenuItem,
+            this.allarmsToolStripMenuItem,
             this.toolStripSeparator3,
             this.loadOnWindowsStartupToolStripMenuItem,
             this.toolStripSeparator4,
             this.closeToolStripMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(248, 196);
+            this.contextMenuStrip.Size = new System.Drawing.Size(248, 248);
             // 
             // topmostToolStripMenuItem
             // 
@@ -148,6 +150,13 @@
             this.fontsToolStripMenuItem.Size = new System.Drawing.Size(247, 24);
             this.fontsToolStripMenuItem.Text = "Fonts";
             this.fontsToolStripMenuItem.Click += new System.EventHandler(this.fontsToolStripMenuItem_Click);
+            // 
+            // allarmsToolStripMenuItem
+            // 
+            this.allarmsToolStripMenuItem.Name = "allarmsToolStripMenuItem";
+            this.allarmsToolStripMenuItem.Size = new System.Drawing.Size(247, 24);
+            this.allarmsToolStripMenuItem.Text = "Alarms";
+            this.allarmsToolStripMenuItem.Click += new System.EventHandler(this.allarmsToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
@@ -256,6 +265,7 @@
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem foregroundColorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem backgroundColorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem allarmsToolStripMenuItem;
     }
 }
 
