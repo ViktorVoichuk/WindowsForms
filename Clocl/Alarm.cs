@@ -22,13 +22,14 @@ namespace Clocl
         string WeekDaysToString()
         {
             string days = "";
+            
             for (int i = 0,j=0; i < Weekdays.Length; i++)
             {
-                if (Weekdays[i] && j > 0)days += ",";
+                //if (Weekdays[i] && j > 0)days += ",";
                 if (Weekdays[i])
                 {
                     days += WeekDayNames[i];
-                    j++;
+                    //j++;
                 }
                 Console.Write(Weekdays[i] + "\t");
             }
