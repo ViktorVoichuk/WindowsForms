@@ -26,6 +26,7 @@ namespace Clocl
         //FontDialog fontDialog;
         ChooseFont chooseFontDialog;
         AlarmList alarmList;
+        Alarm alarm;
         string FontFile { get; set; }
 
         public MainForm()
@@ -38,24 +39,25 @@ namespace Clocl
             backgroundColorDialog = new ColorDialog();
             foregroundColofDialog = new ColorDialog();
 
-
             //fontDialog = new FontDialog();
 
             chooseFontDialog = new ChooseFont();
 
             LoadsSettings();
+
             alarmList = new AlarmList();
             //backgroundColorDialog.Color = Color.Black;
             //foregroundColofDialog.Color = Color.Blue;
 
-
             SetVisibility(false);
             this.Location = new Point
                 (
-                    System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width - this.Width,
+                    System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width - this.Width - 100,
                     50
                 );
             this.Text += $"location: {this.Location.X}x{this.Location.Y}";
+            alarm = new Alarm();
+            //GetNextAlarm();
             //LoadSettings();
         }
         void LoadsSettings()
@@ -104,6 +106,17 @@ namespace Clocl
             //MessageBox.Show(Directory.GetCurrentDirectory());
         }
 
+        void GetNextAlarm()
+        {
+            List<Alarm> alarms = new List<Alarm>();
+            foreach (Alarm item in alarmList.ListBoxAlarm.Items)
+            {
+                if (item.Time>DateTime.Now)alarms.Add(item);
+            }
+            if (alarms.Min() != null) alarm = alarms.Min();
+            
+            Console.WriteLine(alarm);
+        }
         private void timer1_Tick(object sender, EventArgs e)
         {
             labelTime.Text = DateTime.Now.ToString("HH:mm:ss");
@@ -111,6 +124,22 @@ namespace Clocl
             {
                 labelTime.Text += $"\n{DateTime.Today.ToString("dd.MM.yyyy")}";
             }
+
+            if (showWeekdayToolStripMenuItem.Checked)
+                labelTime.Text += $"\n{DateTime.Now.DayOfWeek}";
+
+            int weekday = (int)DateTime.Now.DayOfWeek;
+            weekday = weekday == 0 ? 6 : weekday - 1;
+            if (
+                alarm.Weekdays[weekday] == true&&
+                DateTime.Now.Hour == alarm.Time.Hour &&
+                DateTime.Now.Minute == alarm.Time.Minute &&
+                DateTime.Now.Second == alarm.Time.Second
+                )
+            {
+                MessageBox.Show(alarm.Filename, "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            GetNextAlarm();
             //GetLocation();
         }
 

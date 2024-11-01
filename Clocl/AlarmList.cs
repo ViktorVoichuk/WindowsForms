@@ -12,6 +12,11 @@ namespace Clocl
 {
     public partial class AlarmList : Form
     {
+        public ListBox ListBoxAlarm
+        {
+            get => listBoxAlarms;
+            private set => listBoxAlarms = value;
+        }
         public AlarmList()
         {
             InitializeComponent();
@@ -29,12 +34,12 @@ namespace Clocl
         private void listBoxAlarms_DoubleClick(object sender, EventArgs e)
         {
             AddAlarm addAlarm = new AddAlarm((sender as ListBox).SelectedItem as Alarm);
-            if(addAlarm.ShowDialog(this)==DialogResult.OK)
+            if (addAlarm.ShowDialog(this) == DialogResult.OK)
             {
                 listBoxAlarms.SelectedItem = addAlarm.Alarm;
                 listBoxAlarms.Items[listBoxAlarms.SelectedIndex] = listBoxAlarms.Items[listBoxAlarms.SelectedIndex];
             }
-            
+
         }
     }
 }

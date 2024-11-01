@@ -21,6 +21,10 @@ namespace Clocl
             checkedListBoxWeek.ColumnWidth = checkedListBoxWeek.Width / 7;
             openFileDialogSound.Filter = "MP3 (*.mp3)|*.mp3|Flac (*.flac)|*.flac|All Audio|*.mp3;*.flac";
             openFileDialogSound.FilterIndex = 3;
+            for (int i = 0; i < checkedListBoxWeek.Items.Count; i++)
+            {
+                checkedListBoxWeek.SetItemChecked(i, true);
+            }
         }
 
         public AddAlarm(Alarm alarm) : this()
