@@ -51,7 +51,9 @@
             this.cbShowDate = new System.Windows.Forms.CheckBox();
             this.btnHideControls = new System.Windows.Forms.Button();
             this.notifyIconSystenTray = new System.Windows.Forms.NotifyIcon(this.components);
+            this.axWindowsMediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
             this.contextMenuStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer)).BeginInit();
             this.SuspendLayout();
             // 
             // labelTime
@@ -87,7 +89,7 @@
             this.toolStripSeparator4,
             this.closeToolStripMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(248, 272);
+            this.contextMenuStrip.Size = new System.Drawing.Size(248, 244);
             // 
             // topmostToolStripMenuItem
             // 
@@ -230,6 +232,15 @@
             this.notifyIconSystenTray.DoubleClick += new System.EventHandler(this.notifyIconSystenTray_DoubleClick);
             this.notifyIconSystenTray.MouseMove += new System.Windows.Forms.MouseEventHandler(this.notifyIconSystenTray_MouseMove);
             // 
+            // axWindowsMediaPlayer1
+            // 
+            this.axWindowsMediaPlayer.Enabled = true;
+            this.axWindowsMediaPlayer.Location = new System.Drawing.Point(24, 335);
+            this.axWindowsMediaPlayer.Name = "axWindowsMediaPlayer1";
+            this.axWindowsMediaPlayer.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axWindowsMediaPlayer1.OcxState")));
+            this.axWindowsMediaPlayer.Size = new System.Drawing.Size(293, 48);
+            this.axWindowsMediaPlayer.TabIndex = 3;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -237,6 +248,7 @@
             this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(354, 442);
+            this.Controls.Add(this.axWindowsMediaPlayer);
             this.Controls.Add(this.btnHideControls);
             this.Controls.Add(this.cbShowDate);
             this.Controls.Add(this.labelTime);
@@ -248,6 +260,7 @@
             this.TransparencyKey = System.Drawing.Color.White;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.contextMenuStrip.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -276,6 +289,7 @@
         private System.Windows.Forms.ToolStripMenuItem backgroundColorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem allarmsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showWeekdayToolStripMenuItem;
+        private AxWMPLib.AxWindowsMediaPlayer axWindowsMediaPlayer;
     }
 }
 

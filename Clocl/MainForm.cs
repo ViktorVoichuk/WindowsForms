@@ -14,6 +14,7 @@ using System.Diagnostics;
 using Clocl.Properties;
 using System.Runtime.InteropServices;
 
+
 //using System.Diagnostics;
 
 namespace Clocl
@@ -58,6 +59,8 @@ namespace Clocl
             this.Text += $"location: {this.Location.X}x{this.Location.Y}";
             alarm = new Alarm();
             //GetNextAlarm();
+
+            this.axWindowsMediaPlayer.Visible = false;
             //LoadSettings();
         }
         void LoadsSettings()
@@ -138,11 +141,23 @@ namespace Clocl
                 )
             {
                 MessageBox.Show(alarm.Filename, "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                PlayAlarm();
+                GetNextAlarm();
             }
-            GetNextAlarm();
+            if (DateTime.Now.Second == 0)
+            {
+                GetNextAlarm();
+            }    
             //GetLocation();
         }
 
+        void PlayAlarm()
+        {
+            axWindowsMediaPlayer.URL = alarm.Filename;
+            axWindowsMediaPlayer.settings.volume = 30;
+            axWindowsMediaPlayer.Ctlcontrols.play();
+            axWindowsMediaPlayer.Visible = true;
+        }
         private void SetVisibility(bool visible)
         {
             this.TransparencyKey = visible ? Color.Empty : this.BackColor;
@@ -150,6 +165,7 @@ namespace Clocl
             this.ShowInTaskbar = visible;
             cbShowDate.Visible = visible;
             btnHideControls.Visible = visible;
+            axWindowsMediaPlayer.Visible = false;
             //labelTime.BackColor = visible ? Color.Empty : Color.Coral;
         }
 
@@ -280,6 +296,7 @@ namespace Clocl
         private void allarmsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             alarmList.ShowDialog(this);
+            GetNextAlarm();
         }
 
         [DllImport("kernel32.dll")]
